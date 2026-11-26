@@ -15,9 +15,12 @@ jobs:
       - run: |
           unzip -o dima-boxing-online.zip
           cd dima-boxing
+          sed -i 's/new Peer(PRE+code):new Peer()/new Peer(PRE+code,{config:{iceServers:ICE}}):new Peer({config:{iceServers:ICE}})/' online.js
+          grep -q 'iceServers:ICE' online.js
+          sed -i 's#<script src="online.js">#<script src="turn.js"></script><script src="online.js">#' index.html
           npm install
           mkdir -p www
-          cp index.html online.js node_modules/peerjs/dist/peerjs.min.js www/
+          cp index.html online.js ../turn.js node_modules/peerjs/dist/peerjs.min.js www/
           npx cap add android
           sed -i 's/<activity/<activity android:screenOrientation="portrait"/' android/app/src/main/AndroidManifest.xml
           cd android
