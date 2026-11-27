@@ -15,6 +15,7 @@ jobs:
       - run: |
           unzip -o dima-boxing-online.zip
           cd dima-boxing
+                    sed -i 's/DELAY=6,/DELAY=10,/' online.js
           sed -i 's/new Peer(PRE+code):new Peer()/new Peer(PRE+code,{config:{iceServers:ICE}}):new Peer({config:{iceServers:ICE}})/' online.js
           grep -q 'iceServers:ICE' online.js
           sed -i 's#<script src="online.js">#<script src="turn.js"></script><script src="online.js">#' index.html
